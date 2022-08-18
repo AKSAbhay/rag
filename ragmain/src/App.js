@@ -1,5 +1,5 @@
 import './App.css';
-import { React, useEffect} from 'react';
+import { React, useEffect, useState} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './gcomponents/Header';
 import Footer from './gcomponents/Footer';
@@ -9,8 +9,12 @@ import Deposits from './gcomponents/Deposits';
 import Invoice from './gcomponents/Invoice';
 import Home from './gcomponents/Home';
 import OneSignal from 'react-onesignal';
+import SignInOutContainer from './containers';
+
 
 function App() {
+
+  const[loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     OneSignal.init({
@@ -19,7 +23,9 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <>
+    {loggedIn ? 
+      (<BrowserRouter>
       <Header />
         <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -29,7 +35,9 @@ function App() {
         <Route path="/view-invoice" element={<Invoice />}></Route>
         </Routes>
       <Footer />
-    </BrowserRouter>
+    </BrowserRouter> ) : <SignInOutContainer/>
+    }
+    </>
   );
 }
 
